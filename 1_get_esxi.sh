@@ -42,7 +42,7 @@ get_file_info(){
 
 #requires filename as argument
 download_file(){
-    vmd download -p vmware_vsphere -s esxi -v $1 -f $2 --accepteula -o $BITSDIR
+    vmd download -p $PRODUCT -s $SUBPRODUCT -v $1 -f $2 --accepteula -o $BITSDIR
     
     if [ $? -eq 0 ]
     then
