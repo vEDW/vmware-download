@@ -55,7 +55,7 @@ echo
 echo "Select desired version or CTRL-C to quit"
 echo
 
-select VERSION in $(get_vesion); do 
+select VERSION in $(get_versions); do 
     echo "you selected version : ${VERSION}"
     echo "getting corresponding iso"
     isofile=$(get_file_info ${VERSION})
