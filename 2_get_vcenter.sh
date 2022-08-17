@@ -2,8 +2,8 @@
 source define_download_version_env
 
 PRODUCT=vmware_vsphere
-SUBPRODUCT=esxi
-FILESELECTORSTRING=VMware-VMvisor-Installer
+SUBPRODUCT=vc
+FILESELECTORSTRING=VMware-VCSA-all
 
 # test env variables
 if [ $VMD_USER = '<username>' ]
