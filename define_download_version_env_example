@@ -2,7 +2,7 @@
 
 export BINDIR=/usr/local/bin
 
-export BITSDIR=$HOME/download
+export BITSDIR=$HOME/Downloads
 
 # VMware Customer Connect Download Account
 export VMD_USER='<username>'

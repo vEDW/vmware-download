@@ -19,20 +19,46 @@ if [[ ! -e $BITSDIR ]]; then
     mkdir $BITSDIR
 fi
 
-echo "Connecting to VMware Customer Connect and retrieving available versions"
+get_versions() {
+    VERSIONS=$(vmd get versions -p vmware_vsphere -s esxi |tr -d \')
+    echo $VERSIONS
+}
+
+#requires version as argument
+get_file_info(){
+    file=$(vmd get files -p vmware_vsphere -s esxi -v $1 |grep VMware-VMvisor-Installer | awk '{print $1}')
+    if [ $? -eq 0 ]
+    then
+        echo $file
+    else
+        echo "problem getting iso information" >&2
+        exit 1
+    fi
+}
+
+#requires filename as argument
+download_file(){
+    vmd download -p vmware_vsphere -s esxi -v $1 -f $2 --accepteula -o $BITSDIR
+    
+    if [ $? -eq 0 ]
+    then
+        echo $file
+    else
+        echo "problem getting iso information" >&2
+        exit 1
+    fi
+}
 
 #get list of versions and remove single quotes
-VERSIONS=$(vmd get versions -p vmware_vsphere -s esxi |tr -d \')
-
+echo "Connecting to VMware Customer Connect and retrieving available versions"
 echo
 echo "Select desired version or CTRL-C to quit"
 echo
 
-select VERSION in ${VERSIONS}; do 
-
+select VERSION in $(get_vesion); do 
     echo "you selected version : ${VERSION}"
     echo "getting corresponding iso"
-    isofile=$(vmd get files -p vmware_vsphere -s esxi -v ${VERSION} |grep VMware-VMvisor-Installer | awk '{print $1}')
+    isofile=$(get_file_info ${VERSION})
     echo "downloading isofile :  $isofile"
-    vmd download -p vmware_vsphere -s esxi -v ${VERSION} -f '$isofile' --accepteula -o $BITSDIR
+    download_file ${VERSION} $isofile
 done
