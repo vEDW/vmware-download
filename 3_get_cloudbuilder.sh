@@ -53,6 +53,12 @@ download_file(){
     fi
 }
 
+if [ "$TERM" = "screen" ] && [ -n "$TMUX" ]; then
+  echo "You are running in a tmux session. That is very wise of you !  :)"
+else
+  echo "You are not running in a tmux session. Maybe you want to run this in a tmux session?"
+fi
+
 #get list of versions and remove single quotes
 echo "Connecting to VMware Customer Connect and retrieving available versions"
 echo

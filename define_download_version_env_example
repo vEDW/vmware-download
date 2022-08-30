@@ -9,5 +9,7 @@ export VMD_USER='<username>'
 export VMD_PASS='<password>'
 
 # CLI Tools version
-
 export VMDRELEASE=0.2.0
+
+#OVAs
+export HAPROXYRELEASE=0.2.0
