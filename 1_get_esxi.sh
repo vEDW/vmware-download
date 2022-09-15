@@ -1,4 +1,8 @@
 # source define_download_version_env
+if [[ ! -e define_download_version_env ]]; then
+    echo "define_download_version_env file not found. please create one by cloning example and filling values as needed."
+    exit 1
+fi
 source define_download_version_env
 
 PRODUCT=vmware_vsphere
@@ -8,13 +12,13 @@ FILESELECTORSTRING=VMware-VMvisor-Installer
 # test env variables
 if [ $VMD_USER = '<username>' ]
 then
-    echo "Update VMD_USER value in set_env before running it"
+    echo "Update VMD_USER value in define_download_version_env before running it"
     exit 1
 fi
 
 if [ $VMD_PASS = '<password>' ]
 then
-    echo "Update VMD_USER value in set_env before running it"
+    echo "Update VMD_USER value in define_download_version_env before running it"
     exit 1
 fi
 

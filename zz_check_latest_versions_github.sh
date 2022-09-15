@@ -18,3 +18,8 @@ get_latest_release() {
 # HAPROXYRELEASE 
 HAPROXYRELEASE=`get_latest_release "haproxytech/vmware-haproxy"`
 echo "export HAPROXYRELEASE=$HAPROXYRELEASE"
+
+# VMware Marketplace CLI
+MKPCLIRELEASE=`get_latest_release "vmware-labs/marketplace-cli"`
+echo "export MKPCLIRELEASE=$MKPCLIRELEASE"
+

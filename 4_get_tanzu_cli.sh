@@ -5,9 +5,9 @@ if [[ ! -e define_download_version_env ]]; then
 fi
 source define_download_version_env
 
-PRODUCT=vmware_cloud_foundation
-SUBPRODUCT=vcf
-FILESELECTORSTRING=VMware-Cloud-Builder
+PRODUCT=vmware_tanzu_kubernetes_grid
+SUBPRODUCT=tkg
+FILESELECTORSTRING=tanzu-cli-bundle
 
 # test env variables
 if [ $VMD_USER = '<username>' ]
@@ -57,11 +57,41 @@ download_file(){
     fi
 }
 
+extract_file(){
+    mkdir $BITSDIR/tanzu
+    if [[ "$OS_CLI" == "linux" ]]; then
+        OS_CLI="linux"
+        echo "extracting linux cli"
+        tar -zxf $BITSDIR/$1 --directory=$BITSDIR/tanzu
+    elif [[ "$OS_CLI" == "darwin"* ]]; then
+        OS_CLI="darwin"
+        echo "extracting macos cli"
+        tar -zxf $BITSDIR/$1 --directory=$BITSDIR/tanzu
+    elif [[ "$OS_CLI" == "windows" ]] || [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "win32" ]]; then
+        OS_CLI="windows"
+        echo "extracting windows cli"
+        echo "I still need to check this one"
+}
+
 if [ "$TERM" = "screen" ] && [ -n "$TMUX" ]; then
   echo "You are running in a tmux session. That is very wise of you !  :)"
 else
   echo "You are not running in a tmux session. Maybe you want to run this in a tmux session?"
 fi
+
+if [[ "$OSTYPE" == "linux"* ]]; then
+    OS_CLI="linux"
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+    OS_CLI="darwin"
+elif [[ "$OSTYPE" == "cygwin" ]] || [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "win32" ]]; then
+    OS_CLI="windows"
+else
+	OS_NAME="$OSTYPE-$OSBITS"
+	echo "Unknown OS '$OS_NAME'"
+	exit 1
+fi
+FILESELECTORSTRING="$FILESELECTORSTRING-$OS_CLI"
+echo "filter : $FILESELECTORSTRING"
 
 #get list of versions and remove single quotes
 echo "Connecting to VMware Customer Connect and retrieving available versions"
@@ -75,5 +105,7 @@ select VERSION in $(get_versions); do
     isofile=$(get_file_info ${VERSION})
     echo "downloading file :  $isofile"
     download_file ${VERSION} $isofile
+    extract_file $isofile
     exit
 done
+

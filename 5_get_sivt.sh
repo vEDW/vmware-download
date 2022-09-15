@@ -3,24 +3,19 @@ if [[ ! -e define_download_version_env ]]; then
     echo "define_download_version_env file not found. please create one by cloning example and filling values as needed."
     exit 1
 fi
+
 source define_download_version_env
 
-PRODUCT=vmware_cloud_foundation
-SUBPRODUCT=vcf
-FILESELECTORSTRING=VMware-Cloud-Builder
+PRODUCT=service-installer-for-vmware-tanzu-1
+FILESELECTORSTRING=service-installer-for-vmware-tanzu-with-harbor
 
 # test env variables
-if [ $VMD_USER = '<username>' ]
+if [ $CSP_API_TOKEN = '<insert-csp-token-here>' ]
 then
-    echo "Update VMD_USER value in define_download_version_env before running it"
+    echo "Update CSP_API_TOKEN value in define_download_version_env before running it"
     exit 1
 fi
 
-if [ $VMD_PASS = '<password>' ]
-then
-    echo "Update VMD_USER value in define_download_version_env before running it"
-    exit 1
-fi
 
 #checking and creating BITSDIR if needed
 if [[ ! -e $BITSDIR ]]; then
@@ -28,13 +23,13 @@ if [[ ! -e $BITSDIR ]]; then
 fi
 
 get_versions() {
-    VERSIONS=$(vmd get versions -p $PRODUCT -s $SUBPRODUCT |tr -d \')
+    VERSIONS=$(mkpcli product list-versions -p $PRODUCT | grep ACTIVE | awk '{print $1}')
     echo $VERSIONS
 }
 
 #requires version as argument
 get_file_info(){
-    file=$(vmd get files -p $PRODUCT -s $SUBPRODUCT -v $1 |grep $FILESELECTORSTRING | awk '{print $1}')
+    file=$(mkpcli product list-assets -p $PRODUCT -v $1 |grep $FILESELECTORSTRING | awk '{print $1}')
     if [ $? -eq 0 ]
     then
         echo $file
@@ -46,7 +41,7 @@ get_file_info(){
 
 #requires filename as argument
 download_file(){
-    vmd download -p $PRODUCT -s $SUBPRODUCT -v $1 -f $2 --accepteula -o $BITSDIR
+    mkpcli download -p $PRODUCT  -v $1 --filter $2 --accept-eula -f $BITSDIR/$2
     
     if [ $? -eq 0 ]
     then
@@ -57,14 +52,8 @@ download_file(){
     fi
 }
 
-if [ "$TERM" = "screen" ] && [ -n "$TMUX" ]; then
-  echo "You are running in a tmux session. That is very wise of you !  :)"
-else
-  echo "You are not running in a tmux session. Maybe you want to run this in a tmux session?"
-fi
-
 #get list of versions and remove single quotes
-echo "Connecting to VMware Customer Connect and retrieving available versions"
+echo "Connecting to VMware Marketplace and retrieving available versions"
 echo
 echo "Select desired version or CTRL-C to quit"
 echo

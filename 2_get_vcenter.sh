@@ -1,4 +1,8 @@
 # source define_download_version_env
+if [[ ! -e define_download_version_env ]]; then
+    echo "define_download_version_env file not found. please create one by cloning example and filling values as needed."
+    exit 1
+fi
 source define_download_version_env
 
 PRODUCT=vmware_vsphere
@@ -8,13 +12,13 @@ FILESELECTORSTRING=VMware-VCSA-all
 # test env variables
 if [ $VMD_USER = '<username>' ]
 then
-    echo "Update VMD_USER value in set_env before running it"
+    echo "Update VMD_USER value in define_download_version_env before running it"
     exit 1
 fi
 
 if [ $VMD_PASS = '<password>' ]
 then
-    echo "Update VMD_USER value in set_env before running it"
+    echo "Update VMD_USER value in define_download_version_env before running it"
     exit 1
 fi
 
@@ -65,5 +69,18 @@ select VERSION in $(get_versions); do
     isofile=$(get_file_info ${VERSION})
     echo "downloading file :  $isofile"
     download_file ${VERSION} $isofile
+
+
+
+
+#    cp /data/BITS/VMware-VCSA-all-7.0.3-20051473.iso /data/nfs/ISO/
+
+# source .govc_env
+# govc device.cdrom.insert -vm FORTY-TWO -ds nfsDatastore  ISO/VMware-VCSA-all-7.0.3-20051473.iso
+# govc device.connect -vm FORTY-TWO cdrom-3000
+# scp forty-two:/mnt/temp/vcsa/VMware-vCenter-Server-Appliance-7.0.3.00700-20051473_OVF10.ova /data/nfs/ISO/
+
+#    ssh "root@forty-two:~# mount /dev/cdrom /mnt/temp/ -o loop"
+#>
     exit
 done
