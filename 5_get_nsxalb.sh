@@ -6,8 +6,8 @@ fi
 
 source define_download_version_env
 
-PRODUCT=service-installer-for-vmware-tanzu-1
-FILESELECTORSTRING=service-installer-for-vmware-tanzu-with-harbor
+PRODUCT=nsx-advanced-load-balancer-1
+FILESELECTORSTRING=controller-
 
 # test env variables
 if [ $CSP_API_TOKEN = '<insert-csp-token-here>' ]
@@ -66,3 +66,4 @@ select VERSION in $(get_versions); do
     download_file ${VERSION} $isofile
     exit
 done
+

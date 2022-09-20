@@ -352,3 +352,4 @@ MigrationBackup/
 # files with confidential values
 define_download_version_env
 wip*
+productlist.txt

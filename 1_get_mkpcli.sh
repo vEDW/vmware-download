@@ -25,17 +25,16 @@ else
 	exit 1
 fi
 
-
 echo "downloading mkpcli for $OS_CLI"
 
 # mkpcli
 # from https://github.com/vmware-labs/marketplace-cli
-echo "curl -s -LO https://github.com/vmware-labs/marketplace-cli/releases/download/v${MKPCLIRELEASE}/$FILENAME --output $BITSDIR/$FILENAME"
+echo "curl -s -L --output /tmp/$FILENAME https://github.com/vmware-labs/marketplace-cli/releases/download/v${MKPCLIRELEASE}/$FILENAME"
 
 exit 
 echo "moving mkpcli to ${BINDIR}"
-tar -zxf $FILENAME
+tar -zxf /tmp/$FILENAME
 
-sudo chown root vmd-linux-v${VMDRELEASE}
-sudo chmod ugo+x vmd-linux-v${VMDRELEASE}
+sudo chown root mkpcli
+sudo chmod ugo+x mkpcli
 sudo mv mkpcli ${BINDIR}
