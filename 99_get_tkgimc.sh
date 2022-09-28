@@ -8,9 +8,9 @@ if [[ ! -e define_download_version_env ]]; then
 fi
 source define_download_version_env
 
-PRODUCT=vmware_vsphere
-SUBPRODUCT=vc
-FILESELECTORSTRING=VMware-VCSA-all
+PRODUCT=vmware_tanzu_kubernetes_grid_integrated_edition
+SUBPRODUCT=tkgimc
+FILESELECTORSTRING=ova
 
 # test env variables
 if [ $VMD_USER = '<username>' ]
@@ -60,6 +60,12 @@ download_file(){
     fi
 }
 
+if [ "$TERM" = "screen" ] && [ -n "$TMUX" ]; then
+  echo "You are running in a tmux session. That is very wise of you !  :)"
+else
+  echo "You are not running in a tmux session. Maybe you want to run this in a tmux session?"
+fi
+
 #get list of versions and remove single quotes
 echo "Connecting to VMware Customer Connect and retrieving available versions"
 echo
@@ -72,18 +78,5 @@ select VERSION in $(get_versions); do
     isofile=$(get_file_info ${VERSION})
     echo "downloading file :  $isofile"
     download_file ${VERSION} $isofile
-
-
-
-
-#    cp /data/BITS/VMware-VCSA-all-7.0.3-20051473.iso /data/nfs/ISO/
-
-# source .govc_env
-# govc device.cdrom.insert -vm FORTY-TWO -ds nfsDatastore  ISO/VMware-VCSA-all-7.0.3-20051473.iso
-# govc device.connect -vm FORTY-TWO cdrom-3000
-# scp forty-two:/mnt/temp/vcsa/VMware-vCenter-Server-Appliance-7.0.3.00700-20051473_OVF10.ova /data/nfs/ISO/
-
-#    ssh "root@forty-two:~# mount /dev/cdrom /mnt/temp/ -o loop"
-#>
     exit
 done

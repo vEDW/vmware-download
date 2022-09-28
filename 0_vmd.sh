@@ -1,4 +1,6 @@
-# source define_download_version_env
+#!/bin/bash
+#edewitte@vmware.com
+
 # source define_download_version_env
 if [[ ! -e define_download_version_env ]]; then
     echo "define_download_version_env file not found. please create one by cloning example and filling values as needed."
