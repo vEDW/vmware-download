@@ -44,7 +44,6 @@ get_file_info(){
         echo "Select desired file or CTRL-C to quit"
         echo
         select FILE in $files; do 
-            echo "you selected version : ${FILE}"
             echo "downloading file :  $FILE"
             download_file ${VERSION} $FILE
             exit
@@ -83,6 +82,6 @@ echo
 select VERSION in $(get_versions); do 
     echo "you selected version : ${VERSION}"
     echo "getting ova list"
-    isofile=$(get_file_info ${VERSION})
+    get_file_info ${VERSION}
     exit
 done
