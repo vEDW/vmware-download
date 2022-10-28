@@ -36,6 +36,6 @@ curl -s -L --output /tmp/$FILENAME https://github.com/vmware-labs/marketplace-cl
 
 echo "moving mkpcli to ${BINDIR}"
 tar -zxf /tmp/$FILENAME
-sudo chown root /tmp/mkpcli
-sudo chmod ugo+x /tmp/mkpcli
-sudo mv /tmp/mkpcli ${BINDIR}
+sudo chown root mkpcli
+sudo chmod ugo+x mkpcli
+sudo mv mkpcli ${BINDIR}

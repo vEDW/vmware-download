@@ -10,11 +10,11 @@ source define_download_version_env
 
 #checking and creating BITSDIR if needed
 if [[ ! -e $BITSDIR ]]; then
-    mkdir $BITSDIR
+    sudo mkdir -p $BITSDIR
 fi
 
-sudo apt-get update -y
-sudo apt-get upgrade -y
+#sudo apt-get update -y
+#sudo apt-get upgrade -y
 
 # vmd cli
 # from https://github.com/laidbackware/vmd
