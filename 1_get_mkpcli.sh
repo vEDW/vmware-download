@@ -39,3 +39,4 @@ tar -zxf /tmp/$FILENAME
 sudo chown root mkpcli
 sudo chmod ugo+x mkpcli
 sudo mv mkpcli ${BINDIR}
+mkpcli version
