@@ -72,19 +72,5 @@ select VERSION in $(get_versions); do
     isofile=$(get_file_info ${VERSION})
     echo "downloading file :  $isofile"
     download_file ${VERSION} $isofile
-
-
-
-
-#    cp /data/BITS/VMware-VCSA-all-7.0.3-20051473.iso /data/nfs/ISO/
-
-# source .govc_env
-# govc device.cdrom.insert -vm FORTY-TWO -ds nfsDatastore  ISO/VMware-VCSA-all-7.0.3-20051473.iso
-# govc device.connect -vm FORTY-TWO cdrom-3000
-# scp forty-two:/mnt/temp/vcsa/VMware-vCenter-Server-Appliance-7.0.3.00700-20051473_OVF10.ova /data/nfs/ISO/
-
-#    ssh "root@forty-two:~# mount /dev/cdrom /mnt/temp/ -o loop"
-# sudo mount VMware-VCSA-all-8.0.0-20519528.iso /mnt/ISO-Bank/ -o loop
-#>
     exit
 done

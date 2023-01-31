@@ -120,6 +120,7 @@ extract_file(){
         OS_CLI="windows"
         echo "extracting windows cli"
         echo "I still need to check this one"
+        exit 1
     fi
 }
 

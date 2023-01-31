@@ -37,6 +37,9 @@ get_versions() {
 
 #requires version as argument
 get_file_info(){
+    SAVEIFS=$IFS
+    IFS=$(echo -en "\n\b")
+
     files=$(vmd get files -p $PRODUCT -s $SUBPRODUCT -v $1 |grep $FILESELECTORSTRING | awk '{print $1}')
     if [ $? -eq 0 ]
     then
@@ -52,6 +55,7 @@ get_file_info(){
         echo "problem getting file information" >&2
         exit 1
     fi
+    IFS=$SAVEIFS
 }
 
 #requires filename as argument
