@@ -17,8 +17,7 @@ fi
 #sudo apt-get upgrade -y
 
 # vmd cli
-# from https://github.com/laidbackware/vmd
-curl -s -LO https://github.com/laidbackware/vmd/releases/download/v${VMDRELEASE}/vmd-linux-v${VMDRELEASE}
+# from https://github.com/vmware-labs/vmware-customer-connect-cli 
 curl -s -LO https://github.com/vmware-labs/vmware-customer-connect-cli/releases/download/v${VCCRELEASE}/vcc-linux-v${VCCRELEASE}
 
 sudo chown root vmd-linux-v${VMDRELEASE}
