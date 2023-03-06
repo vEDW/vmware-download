@@ -33,7 +33,7 @@ fi
 PIVNETRELEASE=$(echo $PIVNETRELEASE | sed 's/v//g')
 
 # pivnet cli
-curl -LO https://github.com/pivotal-cf/pivnet-cli/releases/download/v${PIVNETRELEASE}/pivnet-linux-amd64-${PIVNETRELEASE}
+curl -s -LO https://github.com/pivotal-cf/pivnet-cli/releases/download/v${PIVNETRELEASE}/pivnet-linux-amd64-${PIVNETRELEASE}
 
 sudo chown root pivnet-linux-amd64-${PIVNETRELEASE}
 sudo chmod ugo+x pivnet-linux-amd64-${PIVNETRELEASE}
