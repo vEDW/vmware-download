@@ -6,22 +6,16 @@ if [[ ! -e define_download_version_env ]]; then
     echo "define_download_version_env file not found. please create one by cloning example and filling values as needed."
     exit 1
 fi
+
 source define_download_version_env
 
-PRODUCT=vmware_vsphere
-SUBPRODUCT=esxi
-FILESELECTORSTRING=VMware-VMvisor-Installer
+PRODUCT=harbor-singlevm
+FILESELECTORSTRING=harbor-singlevm
 
 # test env variables
-if [ $VCC_USER = '<username>' ]
+if [ $CSP_API_TOKEN = '<insert-csp-token-here>' ]
 then
-    echo "Update VCC_USER value in define_download_version_env before running it"
-    exit 1
-fi
-
-if [ $VCC_PASS = '<password>' ]
-then
-    echo "Update VCC_PASS value in define_download_version_env before running it"
+    echo "Update CSP_API_TOKEN value in define_download_version_env before running it"
     exit 1
 fi
 
@@ -31,16 +25,22 @@ if [[ ! -e $BITSDIR ]]; then
 fi
 
 get_versions() {
-    VERSIONS=$(vcc get versions -p $PRODUCT -s $SUBPRODUCT |tr -d \')
+    VERSIONS=$(mkpcli product list-versions -p $PRODUCT | grep ACTIVE | awk '{print $1}')
     echo $VERSIONS
 }
 
 #requires version as argument
 get_file_info(){
-    file=$(vcc get files -p $PRODUCT -s $SUBPRODUCT -v $1 |grep $FILESELECTORSTRING | awk '{print $1}')
+    files=$(mkpcli product list-assets -p $PRODUCT -v $1  | awk '{print $1}' | tail +3)
     if [ $? -eq 0 ]
     then
-        echo $file
+        echo "Select desired file or CTRL-C to quit"
+        select FILE in $files; do 
+            echo "you selected version : ${FILE}"
+            echo "downloading file :  $FILE"
+            download_file ${VERSION} $FILE
+            exit
+        done
     else
         echo "problem getting file information" >&2
         exit 1
@@ -49,7 +49,7 @@ get_file_info(){
 
 #requires filename as argument
 download_file(){
-    vcc download -p $PRODUCT -s $SUBPRODUCT -v $1 -f $2 --accepteula -o $BITSDIR
+    mkpcli download -p $PRODUCT  -v $1 --filter $2 --accept-eula -f $BITSDIR/$2
     
     if [ $? -eq 0 ]
     then
@@ -61,16 +61,14 @@ download_file(){
 }
 
 #get list of versions and remove single quotes
-echo "Connecting to VMware Customer Connect and retrieving available versions"
+echo "Connecting to VMware Marketplace and retrieving available versions"
 echo
 echo "Select desired version or CTRL-C to quit"
 echo
 
 select VERSION in $(get_versions); do 
     echo "you selected version : ${VERSION}"
-    echo "getting corresponding file"
-    isofile=$(get_file_info ${VERSION})
-    echo "downloading file :  $isofile"
-    download_file ${VERSION} $isofile
+    echo "getting ova file"
+    get_file_info ${VERSION}
     exit
 done

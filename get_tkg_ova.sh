@@ -13,15 +13,15 @@ SUBPRODUCT=tkg
 FILESELECTORSTRING=ova
 
 # test env variables
-if [ $VMD_USER = '<username>' ]
+if [ $VCC_USER = '<username>' ]
 then
-    echo "Update VMD_USER value in define_download_version_env before running it"
+    echo "Update VCC_USER value in define_download_version_env before running it"
     exit 1
 fi
 
-if [ $VMD_PASS = '<password>' ]
+if [ $VCC_PASS = '<password>' ]
 then
-    echo "Update VMD_USER value in define_download_version_env before running it"
+    echo "Update VCC_PASS value in define_download_version_env before running it"
     exit 1
 fi
 
@@ -31,7 +31,7 @@ if [[ ! -e $BITSDIR ]]; then
 fi
 
 get_versions() {
-    VERSIONS=$(vmd get versions -p $PRODUCT -s $SUBPRODUCT |tr -d \')
+    VERSIONS=$(vcc get versions -p $PRODUCT -s $SUBPRODUCT |tr -d \')
     echo $VERSIONS
 }
 
@@ -39,7 +39,7 @@ get_versions() {
 get_file_info(){
     SAVEIFS=$IFS
     IFS=$(echo -en "\n\b")
-    files=$(vmd get files -p $PRODUCT -s $SUBPRODUCT -v $1 |grep $FILESELECTORSTRING | awk '{print $1}')
+    files=$(vcc get files -p $PRODUCT -s $SUBPRODUCT -v $1 |grep $FILESELECTORSTRING | awk '{print $1}')
     if [ $? -eq 0 ]
     then
         echo
@@ -59,7 +59,7 @@ get_file_info(){
 
 #requires filename as argument
 download_file(){
-    vmd download -p $PRODUCT -s $SUBPRODUCT -v $1 -f $2 --accepteula -o $BITSDIR
+    vcc download -p $PRODUCT -s $SUBPRODUCT -v $1 -f $2 --accepteula -o $BITSDIR
     
     if [ $? -eq 0 ]
     then
