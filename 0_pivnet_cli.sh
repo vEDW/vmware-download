@@ -20,11 +20,11 @@ fi
 # from https://github.com/laidbackware/vmd
 
 
-if [ ${PIVNETRELEASE} == "" ]; then
+if [[ ${PIVNETRELEASE} == "" ]]; then
     PIVNETRELEASE=$(curl -s https://api.github.com/repos/pivotal-cf/pivnet-cli/releases/latest | jq -r .tag_name)
 fi
 
-if [ ${PIVNETRELEASE} == "null" ]; then
+if [[ ${PIVNETRELEASE} == "null" ]]; then
     echo "github api rate limiting blocked request"
     echo "please set PIVNETRELEASE version in define_download_version_env"
     exit
