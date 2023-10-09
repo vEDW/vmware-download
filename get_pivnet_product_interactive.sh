@@ -24,13 +24,26 @@ if [[ ! -e $BITSDIR ]]; then
     mkdir $BITSDIR
 fi
 
+
+#checking if pivnet cli is there
+test=$(pivnet version)
+if [ ! $? -eq 0 ]
+then
+    echo "pivnet cli not available. please install it."
+    exit 1
+fi
+
 get_products() {
-    PRODUCTS=$(pivnet products | sort |grep -v "|     |" | grep -v "+-----+" | grep -v "| ID  |" | awk '{print $4}' | sort)
+    # PRODUCTS=$(pivnet products | sort |grep -v "|     |" | grep -v "+-----+" | grep -v "| ID  |" | awk '{print $4}' | sort)
+    JSON_PRODUCTS=$(pivnet products --format=json)
+    PRODUCTS=$(echo $JSON_PRODUCTS | jq -r '.[].slug' |sort)
     echo $PRODUCTS
 }
 
 get_versions() {
-    VERSIONS=$(pivnet releases  -p $PRODUCT  | sort |grep -v "|         |" | grep -v "+---------+" | grep -v "|   ID    |" | awk '{print $4}' | sort)
+    # VERSIONS=$(pivnet releases  -p $PRODUCT  | sort |grep -v "|         |" | grep -v "+---------+" | grep -v "|   ID    |" | awk '{print $4}' | sort)
+    JSON_VERSIONS=$(pivnet releases --format=json -p $PRODUCT )
+    VERSIONS=$(echo $JSON_VERSIONS | jq -r '.[].version' |sort)
     echo $VERSIONS
 }
 

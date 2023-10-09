@@ -58,8 +58,8 @@ get_file_info(){
         echo
         select FILE in $files; do 
             echo "downloading file :  $FILE"
-            download_file ${VERSION} $FILE
-            exit
+            #download_file ${VERSION} $FILE
+            break
         done
     else
         echo "problem getting file information" >&2
@@ -123,10 +123,12 @@ done
 echo
 echo "Select file or CTRL-C to quit"
 echo
-select FILEINFO in $(get_file_info ${VERSION}); do 
-    echo
-    echo "you selected file : ${FILEINFO}"
-    echo
-    break
-done
+# select FILEINFO in $(get_file_info ${VERSION}); do 
+#     echo
+#     echo "you selected file : ${FILEINFO}"
+#     echo
+#     break
+# done
 
+get_file_info ${VERSION} 
+download_file ${VERSION} $FILE
