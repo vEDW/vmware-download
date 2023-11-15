@@ -43,7 +43,7 @@ get_products() {
 get_versions() {
     # VERSIONS=$(pivnet releases  -p $PRODUCT  | sort |grep -v "|         |" | grep -v "+---------+" | grep -v "|   ID    |" | awk '{print $4}' | sort)
     JSON_VERSIONS=$(pivnet releases --format=json -p $PRODUCT )
-    VERSIONS=$(echo $JSON_VERSIONS | jq -r '.[].version' |sort)
+    VERSIONS=$(echo $JSON_VERSIONS | jq -r '.[].version' |sort -r)
     echo $VERSIONS
 }
 
