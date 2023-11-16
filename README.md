@@ -1,5 +1,5 @@
 # vmware-download
-scripts to download VMware software using a linux system
+linux bash scripts to download VMware software using a linux system
 
 Makes use of vcc cli from : https://github.com/vmware-labs/vmware-customer-connect-cli
 

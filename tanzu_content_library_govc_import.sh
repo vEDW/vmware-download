@@ -71,3 +71,8 @@ govc library.import  "${CONTENTLIBRARY}"  ${OVF}
 echo "setting ova name"
 ITEMNAME=$(echo "${OVF}" |rev |cut -d "/" -f1 | rev |cut -d "." -f1)
 govc library.update -n "${TEMPLATE}" "${CONTENTLIBRARY}/${ITEMNAME}"
+
+LISTCONTENT=$(govc library.ls "${CONTENTLIBRARY}/")
+echo "Updated library content : "
+echo "${LISTCONTENT}"
+echo 
