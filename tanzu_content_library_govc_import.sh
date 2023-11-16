@@ -22,7 +22,6 @@ then
         fi
         echo
         echo "you selected Content Library : ${CONTENTLIBRARY}"
-        echo
         break
     done
 else
@@ -32,6 +31,7 @@ else
 fi
 
 TEMPLATES=$(find  ${BITSDIR}/tanzu-contentlibrary/  -mindepth 1 -maxdepth 1 -type d -print |rev |cut -d "/" -f1 | rev )
+echo
 echo "Select template to import"
 select TEMPLATE in ${TEMPLATES}; do 
     if [ "${TEMPLATE}" = "Quit" ]; then 
@@ -44,6 +44,28 @@ done
 
 LISTCONTENT=$(govc library.ls "${CONTENTLIBRARY}/")
 echo "${LISTCONTENT}"
+echo 
+
+OVFFILE=$(ls ${BITSDIR}/tanzu-contentlibrary/${TEMPLATE}/*.ovf)
+OVFTST=$(echo "${OVFFILE}" |wc -l)
+if [ "${OVFTST}" -gt 1 ]
+then
+    echo "Select OVF"
+    select OVF in ${OVFFILE}; do 
+        if [ "${OVF}" = "Quit" ]; then 
+            break
+        fi
+        echo
+        echo "you selected ovf : ${OVF}"
+        break
+    done
+else
+    OVF=${OVFFILE}
+    echo
+    echo "using ovf : ${OVF}"
+fi
+
+
 
 #FILESJSON=$(echo "${CLJSON}" | jq '.items[] | select (.name == "ob-22187091-ubuntu-2004-amd64-vmi-k8s-v1.26.5---vmware.2-fips.1-tkg.1")')
 
