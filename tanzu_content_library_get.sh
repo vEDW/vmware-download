@@ -54,10 +54,9 @@ then
     mkdir -p ${BITSDIR}/tanzu-contentlibrary/"${TEMPLATE}"
 else
     echo
-    echo "!!!"
-    echo "Directory : ${DESTINATION} already exists."
+    echo "!!! Directory : ${DESTINATION} already exists."
     echo
-    read -n1 -s -r -p $'do you want to proceed anyway ? (pressy to proceed - anything else to cancel).\n' answer
+    read -n1 -s -r -p $'do you want to proceed anyway ? (press "y" to proceed - anything else to cancel).\n' answer
     if [ "${answer}" != "y" ]
     then
         echo "you decided to not proceed"
