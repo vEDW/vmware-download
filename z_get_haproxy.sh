@@ -1,4 +1,5 @@
-# source define_download_version_env
+#!/bin/bash
+
 if [[ ! -e define_download_version_env ]]; then
     echo "define_download_version_env file not found. please create one by cloning example and filling values as needed."
     exit 1
@@ -9,9 +10,6 @@ source define_download_version_env
 if [[ ! -e $BITSDIR ]]; then
     mkdir $BITSDIR
 fi
-
-sudo apt-get update -y
-sudo apt-get upgrade -y
 
 # HAproxy OVA
 # from https://github.com/haproxytech/vmware-haproxy

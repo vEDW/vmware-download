@@ -60,7 +60,7 @@ select TEMPLATE in ${TEMPLATES_PER_VERSION}; do
     echo
     echo "templates files"
     FILESJSON=$(echo "${CLJSON}" | jq '.items[] | select (.name == "'"${TEMPLATE}"'")')
-    echo "${FILESJSON}" | jq .
+    echo "${FILESJSON}" | jq -r '["File","Size-in-Bytes"], ["----","-------------"], (.files[] | [.name, .size] )| @tsv' | column -t -s $'\t'
     break
 done
 
@@ -93,3 +93,6 @@ done
 echo "Files downloaded into directory : ${DESTINATION}"
 
 #FILESJSON=$(echo "${CLJSON}" | jq '.items[] | select (.name == "ob-22187091-ubuntu-2004-amd64-vmi-k8s-v1.26.5---vmware.2-fips.1-tkg.1")')
+
+# govc library.import  /test-cl /data/BITS/tanzu-contentlibrary/ob-21961086-photon-3-amd64-vmi-k8s-v1.25.7---vmware.3-fips.1-tkg.1/photon-ova.ovf
+# govc library.update -n ob-21961086-photon-3-amd64-vmi-k8s-v1.25.7---vmware.3-fips.1-tkg.1 /test-cl/photon-ova
