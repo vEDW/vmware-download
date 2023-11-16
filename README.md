@@ -1,7 +1,7 @@
 # vmware-download
 scripts to download VMware software using a linux system
 
-Makes use of vmd cli from : https://github.com/laidbackware/vmd 
+Makes use of vcc cli from : https://github.com/vmware-labs/vmware-customer-connect-cli
 
 # how to use
 
