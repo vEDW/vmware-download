@@ -65,6 +65,12 @@ else
     echo "using ovf : ${OVF}"
 fi
 
+echo "importing in content library"
+govc library.import  "${CONTENTLIBRARY}"  ${OVF}
+echo "setting ova name"
+ITEMNAME=$(echo "${OVF}" |rev |cut -d "/" | rev |cut -d "." -f1)
+govc library.update -n "${TEMPLATE}" "${CONTENTLIBRARY}/${ITEMNAME}"
+
 
 
 #FILESJSON=$(echo "${CLJSON}" | jq '.items[] | select (.name == "ob-22187091-ubuntu-2004-amd64-vmi-k8s-v1.26.5---vmware.2-fips.1-tkg.1")')
