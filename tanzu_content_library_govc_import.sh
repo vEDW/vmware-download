@@ -20,12 +20,14 @@ then
         if [ "${CONTENTLIBRARY}" = "Quit" ]; then 
             break
         fi
+        echo
         echo "you selected Content Library : ${CONTENTLIBRARY}"
         echo
         break
     done
 else
     CONTENTLIBRARY=${CONTENTLIBRARIES}
+    echo
     echo "using Content Library : ${CONTENTLIBRARY}"
 fi
 
@@ -40,8 +42,8 @@ select TEMPLATE in ${TEMPLATES}; do
     break
 done
 
-
-
+LISTCONTENT=$(govc library.ls "${CONTENTLIBRARY}/")
+echo "${LISTCONTENT}"
 
 #FILESJSON=$(echo "${CLJSON}" | jq '.items[] | select (.name == "ob-22187091-ubuntu-2004-amd64-vmi-k8s-v1.26.5---vmware.2-fips.1-tkg.1")')
 
