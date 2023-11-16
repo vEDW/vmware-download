@@ -8,25 +8,10 @@ if [[ ! -e define_download_version_env ]]; then
 fi
 source define_download_version_env
 
-DATACENTERS=$(govc find / -type d)
-DCCT=$(echo "${DATACENTER}" | wc -l)
-if [ "${DCCT}" -gt 1 ]
-then
-    echo "Select Datacenter"
-    select VERSION in ${VERSIONS}; do 
-        if [ "${VERSION}" = "Quit" ]; then 
-        break
-        fi
-        echo "you selected version : ${VERSION}"
-        echo
-        break
-    done
-else
-    DATACENTER=${DATACENTERS}
-fi
-
 CONTENTLIBRARIES=$(govc library.ls -dc="${DATACENTER}")
 CLCT=$(echo "${CONTENTLIBRARIES}" | wc -l)
+
+[ "${CLCT}" -lt 1 ] && echo "no content library found. create one first." && exit
 
 if [ "${CLCT}" -gt 1 ]
 then
@@ -41,6 +26,7 @@ then
     done
 else
     CONTENTLIBRARY=${CONTENTLIBRARIES}
+    echo "using Content Library : ${CONTENTLIBRARY}"
 fi
 
 TEMPLATES=$(find  ${BITSDIR}/tanzu-contentlibrary/  -mindepth 1 -maxdepth 1 -type d -print |rev |cut -d "/" -f1 | rev )
@@ -53,6 +39,7 @@ select TEMPLATE in ${TEMPLATES}; do
     echo
     break
 done
+
 
 
 
