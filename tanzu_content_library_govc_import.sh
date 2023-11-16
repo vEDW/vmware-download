@@ -8,7 +8,7 @@ if [[ ! -e define_download_version_env ]]; then
 fi
 source define_download_version_env
 
-CONTENTLIBRARIES=$(govc library.ls -dc="${DATACENTER}")
+CONTENTLIBRARIES=$(govc library.ls)
 CLCT=$(echo "${CONTENTLIBRARIES}" | wc -l)
 
 [ "${CLCT}" -lt 1 ] && echo "no content library found. create one first." && exit
