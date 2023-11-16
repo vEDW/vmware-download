@@ -8,29 +8,6 @@ if [[ ! -e define_download_version_env ]]; then
 fi
 source define_download_version_env
 
-get_file_info(){
-    SAVEIFS=$IFS
-    IFS=$(echo -en "\n\b")
-    JSON_FILES=$(pivnet pfs --format=json -p $PRODUCT  -r $VERSION)
-    files=$(echo $JSON_FILES | jq -r '.[].name')
-    if [ $? -eq 0 ]
-    then
-        echo
-        echo "Select desired file or CTRL-C to quit"
-        echo
-
-        select FILE in $files; do 
-            FILE_ID=$(echo $JSON_FILES | jq '.[] | select (.name == "'${FILE}'") | .id')
-            echo "downloading file :  $FILE - id: $FILE_ID"
-            break 
-        done
-    else
-        echo "problem getting file information" >&2
-        exit 1
-    fi
-    IFS=$SAVEIFS
-}
-
 CLJSON=$(curl -s https://wp-content.vmware.com/v2/latest/items.json)
 
 VERSIONS=$(echo "${CLJSON}" | jq -r '.items[].name' | grep -o 'v1\.[0-9]*' | sort -Vu)
@@ -38,6 +15,9 @@ VERSIONS=$(echo "${CLJSON}" | jq -r '.items[].name' | grep -o 'v1\.[0-9]*' | sor
 
 VERSIONS=${VERSIONS}" Quit"
 
+echo
+echo "Select desired TKR version :"
+echo
 select VERSION in ${VERSIONS}; do 
     if [ "${VERSION}" = "Quit" ]; then 
       break
@@ -51,6 +31,10 @@ done
 
 TEMPLATES_PER_VERSION=$(echo "${CLJSON}" | jq -r '.items[].name' | grep "${VERSION}" | sort )
 TEMPLATES_PER_VERSION=${TEMPLATES_PER_VERSION}" Quit"
+
+echo
+echo "Select desired TKR template to download :"
+echo
 
 select TEMPLATE in ${TEMPLATES_PER_VERSION}; do 
     if [ "${TEMPLATE}" = "Quit" ]; then 
