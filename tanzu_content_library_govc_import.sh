@@ -43,6 +43,7 @@ select TEMPLATE in ${TEMPLATES}; do
 done
 
 LISTCONTENT=$(govc library.ls "${CONTENTLIBRARY}/")
+echo "Current library content : "
 echo "${LISTCONTENT}"
 echo 
 
@@ -68,12 +69,5 @@ fi
 echo "importing in content library"
 govc library.import  "${CONTENTLIBRARY}"  ${OVF}
 echo "setting ova name"
-ITEMNAME=$(echo "${OVF}" |rev |cut -d "/" | rev |cut -d "." -f1)
+ITEMNAME=$(echo "${OVF}" |rev |cut -d "/" -f1 | rev |cut -d "." -f1)
 govc library.update -n "${TEMPLATE}" "${CONTENTLIBRARY}/${ITEMNAME}"
-
-
-
-#FILESJSON=$(echo "${CLJSON}" | jq '.items[] | select (.name == "ob-22187091-ubuntu-2004-amd64-vmi-k8s-v1.26.5---vmware.2-fips.1-tkg.1")')
-
-# govc library.import  /test-cl /data/BITS/tanzu-contentlibrary/ob-21961086-photon-3-amd64-vmi-k8s-v1.25.7---vmware.3-fips.1-tkg.1/photon-ova.ovf
-# govc library.update -n ob-21961086-photon-3-amd64-vmi-k8s-v1.25.7---vmware.3-fips.1-tkg.1 /test-cl/photon-ova
