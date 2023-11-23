@@ -9,7 +9,15 @@ export BITSDIR=$HOME/Downloads
 export VCC_USER='<username>'
 export VCC_PASS='<password>'
 
-#VMware Market place api token
+if [[ "${VCC_PASS}" == "<password>" ]] || [[ "${VCC_PASS}" == "<password>" ]]
+then
+    echo "VCC password not set. please provide it now. It will be set as env value only"
+    echo -n Password: 
+    read -r -s password
+    export VCC_PASS="${password}"
+fi
+
+#VMware Market place api token  
 #get it from https://marketplace.cloud.vmware.com/
 export CSP_API_TOKEN='<insert-csp-token-here>'
 
