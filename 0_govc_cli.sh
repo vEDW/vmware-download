@@ -19,11 +19,11 @@ fi
 # vmd cli
 # from https://github.com/laidbackware/vmd
 
-if [ ${GOVCRELEASE} == "" ]; then
+if [[ ${GOVCRELEASE} == "" ]]; then
     GOVCRELEASE=$(curl -s https://api.github.com/repos/vmware/govmomi/releases/latest | jq -r .tag_name)
 fi
 
-if [ ${GOVCRELEASE} == "null" ]; then
+if [[ ${GOVCRELEASE} == "null" ]]; then
     echo "github api rate limiting blocked request"
     echo "please set GOVCRELEASE version in define_download_version_env"
     exit
