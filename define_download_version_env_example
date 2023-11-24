@@ -9,7 +9,7 @@ export BITSDIR=$HOME/Downloads
 export VCC_USER='<username>'
 export VCC_PASS='<password>'
 
-if [[ "${VCC_PASS}" == "<password>" ]] || [[ "${VCC_PASS}" == "<password>" ]]
+if [[ "${VCC_PASS}" == "<password>" ]] || [[ "${VCC_PASS}" == "" ]]
 then
     echo "VCC password not set. please provide it now. It will be set as env value only"
     echo -n Password: 
@@ -31,5 +31,6 @@ export VMDRELEASE=0.2.0
 export MKPCLIRELEASE=0.14.0
 export PIVNETRELEASE=v3.0.1
 export VCCRELEASE=v1.1.3
+export GOVCRELEASE=v0.33.0
 #OVAs
 export HAPROXYRELEASE=0.2.0
