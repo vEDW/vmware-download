@@ -31,7 +31,10 @@ fi
 
 curl -s -LO https://github.com/vmware/govmomi/releases/download/${GOVCRELEASE}/govc_Linux_x86_64.tar.gz
 
-sudo chown root govc_Linux_x86_64.tar.gz
-sudo chmod ugo+x govc_Linux_x86_64.tar.gz
-sudo mv govc_Linux_x86_64.tar.gz ${BINDIR}/govc
+mkdir -p ./govctar
+tar -zxf govc_Linux_x86_64.tar.gz -C  ./govctar
+sudo chown root:root ./govctar/govc 
+sudo chmod ugo+x ./govctar/govc 
+sudo mv ./govctar/govc  ${BINDIR}/govc
 govc version
+rm -rf ./govctar
