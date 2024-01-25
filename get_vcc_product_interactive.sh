@@ -31,26 +31,27 @@ if [[ ! -e $BITSDIR ]]; then
 fi
 
 get_products() {
-    PRODUCTS=$(vcc get products | awk 'NR>1 {print $1}')
+    PRODUCTS=$(./vcc get products | awk 'NR>1 {print $1}')
     echo $PRODUCTS
 }
 
 get_sub_products() {
     # get_sub_products "product"
     #PRODUCT="${1}"
-    SUBPRODUCTS=$(vcc get subproducts -p $PRODUCT | awk 'NR>1 {print $1}')
+    SUBPRODUCTS=$(./vcc get subproducts -p $PRODUCT -t $TYPE  | awk 'NR>1 {print $1}')
     echo $SUBPRODUCTS
 }
 get_versions() {
-    VERSIONS=$(vcc get versions -p $PRODUCT -s $SUBPRODUCT |tr -d \')
+    VERSIONS=$(./vcc get versions -p $PRODUCT -t $TYPE -s $SUBPRODUCT |tr -d \')
     echo $VERSIONS
 }
 
 #requires version as argument
 get_file_info(){
+    VERSION=${1}
     SAVEIFS=$IFS
     IFS=$(echo -en "\n\b")
-    files=$(vcc get files -p $PRODUCT -s $SUBPRODUCT -v $1 | awk 'NR>6 {print $1}')
+    files=$(./vcc get files -p $PRODUCT -s $SUBPRODUCT -t $TYPE -v $VERSION | awk 'NR>6 {print $1}')
     if [ $? -eq 0 ]
     then
         echo
@@ -70,7 +71,7 @@ get_file_info(){
 
 #requires filename as argument
 download_file(){
-    vcc download -p $PRODUCT -s $SUBPRODUCT -v $1 -f $2 --accepteula -o $BITSDIR
+    ./vcc download -p $PRODUCT -s $SUBPRODUCT -t $TYPE -v $1 -f $2 --accepteula -o $BITSDIR
     
     if [ $? -eq 0 ]
     then
@@ -99,6 +100,19 @@ select PRODUCT in $(get_products); do
     echo
     break
 done
+
+TYPES="product_binary drivers_tools custom_iso addons"
+
+echo
+echo "Select download type (Default: product_binary ) or CTRL-C to quit"
+echo
+select TYPE in ${TYPES}; do 
+    echo
+    echo "you selected type : ${TYPE}"
+    echo
+    break
+done
+
 
 echo
 echo "Select desired sub product or CTRL-C to quit"
