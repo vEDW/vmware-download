@@ -19,11 +19,23 @@ fi
 # vmd cli
 # from https://github.com/laidbackware/vmd
 
-if [ ${VCCRELEASE} == "" ]; then
-    VCCRELEASE=$(curl -s https://api.github.com/repos/vmware-labs/vmware-customer-connect-cli/releases/latest | jq -r .tag_name)
+if [[ ${VCCRELEASE} == "" ]]; then
+    VCCRELEASELIST=$(curl -s https://api.github.com/repos/vmware-labs/vmware-customer-connect-cli/releases | jq -r '.[].tag_name')
+
+    echo
+    echo "Select desired VCC release or CTRL-C to quit"
+    echo
+
+    select VCCRELEASE in ${VCCRELEASELIST}; do 
+    echo
+    echo "you selected release : ${VCCRELEASE}"
+    echo
+    break
+done
+
 fi
 
-if [ ${VCCRELEASE} == "null" ]; then
+if [[ ${VCCRELEASE} == "null" ]]; then
     echo "github api rate limiting blocked request"
     echo "please set VCCRELEASE version in define_download_version_env"
     exit
