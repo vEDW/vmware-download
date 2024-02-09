@@ -13,13 +13,13 @@ SUBPRODUCT=vcf
 FILESELECTORSTRING=VMware-Cloud-Builder
 
 # test env variables
-if [ $VCC_USER = '<username>' ]
+if [ $VCC_USER == '<username>' ]
 then
     echo "Update VCC_USER value in define_download_version_env before running it"
     exit 1
 fi
 
-if [ $VCC_PASS = '<password>' ]
+if [ $VCC_PASS == '<password>' ]
 then
     echo "Update VCC_PASS value in define_download_version_env before running it"
     exit 1
@@ -60,7 +60,7 @@ download_file(){
     fi
 }
 
-if [ "$TERM" = "screen" ] && [ -n "$TMUX" ]; then
+if [ "$TERM" == "screen" ] && [ -n "$TMUX" ]; then
   echo "You are running in a tmux session. That is very wise of you !  :)"
 else
   echo "You are not running in a tmux session. Maybe you want to run this in a tmux session?"

@@ -354,3 +354,4 @@ define_download_version_env
 wip*
 productlist.txt
 .vscode
+vcc*
